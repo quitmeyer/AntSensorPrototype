@@ -1,9 +1,6 @@
 /**
- * Simple Read
- * 
- * Read data from the serial port and change the color of a rectangle
- * when a switch connected to a Wiring or Arduino board is pressed and released.
- * This example works with the Wiring / Arduino program that follows below.
+ * Load an image in from Optical Mouse
+ * Display as grayscale image
  */
 
 
@@ -23,7 +20,7 @@ int pSensors[];      // array to store the previuos reading, usefur for comparin
 
 void setup() 
 {
-  size(200, 200);
+  size(800, 800);
   // I know that the first port in the serial list on my mac
   // is always my  FTDI adaptor, so I open Serial.list()[0].
   // On Windows machines, this generally opens COM1.
@@ -31,6 +28,10 @@ void setup()
   String portName = Serial.list()[0];
   myPort = new Serial(this, portName, 115200);
   myImage = createImage(18,18,ALPHA); //Alpha means grayscale
+myImage = loadImage("testmouseImage.png");
+  background(255,0,0);
+    image (myImage, 0, 0, width, height);
+  
 }
 
 void draw()
@@ -97,8 +98,10 @@ void serialEvent(Serial myPort) {
     
     myImage.loadPixels();
 for (int i = 0; i < myImage.pixels.length; i++) {
-  myImage.pixels[i] = sensors[i]; 
+  myImage.pixels[i] = color(sensors[i]); 
+  print(sensors[i] + ", ");
 }
+println();
 myImage.updatePixels();
   image (myImage, 0, 0, width, height);
     
