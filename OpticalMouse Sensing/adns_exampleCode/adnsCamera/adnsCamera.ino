@@ -28,9 +28,11 @@ void loop()
 
     cam.adns_get_frame(frameBuf); // get entire image frame (18*18 = 324 bytes) to frameBuf[]
 
+Serial.println("!-framestart-!");
     for(int i=0; i<324; i++)  // write the raw data to the serial port
     {
-      Serial.write( byte(frameBuf[i]) );
+      //Serial.write( byte(frameBuf[i]) ); //For fancier command
+      Serial.println(frameBuf[i]);
       /*
       Serial.print(frameBuf[i], BYTE);
       A quick search led me a link with the solution (https://decibel.ni.com/content/thread/11196?tstart=0), that is to replace
@@ -42,8 +44,10 @@ void loop()
       
     }
     
-        while (Serial.available() == 0)  // wait for PC to acknowledge it's ready for the next frame by sending a character
+   /*     while (Serial.available() == 0)  // wait for PC to acknowledge it's ready for the next frame by sending a character
     {
     }
-    Serial.flush();
+    Serial.flush(); //more fancier command stuff to pC
+    */
+    Serial.println("---frameend----");
 }

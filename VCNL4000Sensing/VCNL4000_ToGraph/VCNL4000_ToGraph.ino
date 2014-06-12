@@ -95,10 +95,11 @@ void loop() {
     //Serial.print("Ready = 0x"); Serial.println(result, HEX);
     if ((result & VCNL4000_AMBIENTREADY)&&(result & VCNL4000_PROXIMITYREADY)) {
 
-      Serial.print("Ambient = ");
-      Serial.print(read16(VCNL4000_AMBIENTDATA));
-      Serial.print("\t\tProximity = ");
-      Serial.println(read16(VCNL4000_PROXIMITYDATA));
+//      Serial.print("Ambient = ");
+//      Serial.print(read16(VCNL4000_AMBIENTDATA));
+//      Serial.print("\t\tProximity = ");
+//      Serial.println(read16(VCNL4000_PROXIMITYDATA));
+Serial.println(read16(VCNL4000_PROXIMITYDATA)/10);
       break;
     }
     delay(10);

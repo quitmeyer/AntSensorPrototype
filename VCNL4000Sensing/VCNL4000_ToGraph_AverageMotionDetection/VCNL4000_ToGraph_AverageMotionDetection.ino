@@ -35,9 +35,8 @@
 #define VCNL4000_AMBIENTREADY 0x40
 #define VCNL4000_PROXIMITYREADY 0x20
   
+  float oldReading=0;
   
-  float averageProx = 0.0;
-  float floatingavgalpha=.5;
   
 void setup() {
   Serial.begin(9600);
@@ -98,20 +97,17 @@ void loop() {
     uint8_t result = read8(VCNL4000_COMMAND);
     //Serial.print("Ready = 0x"); Serial.println(result, HEX);
     if ((result & VCNL4000_AMBIENTREADY)&&(result & VCNL4000_PROXIMITYREADY)) {
-      
-      /**
-      Serial.print("Ambient = ");
-      Serial.print(read16(VCNL4000_AMBIENTDATA));
-      Serial.print("\t\tProximity = ");
-      Serial.println(read16(VCNL4000_PROXIMITYDATA));
+
+//      Serial.print("Ambient = ");
+//      Serial.print(read16(VCNL4000_AMBIENTDATA));
+//      Serial.print("\t\tProximity = ");
+//      Serial.println(read16(VCNL4000_PROXIMITYDATA));
+float reading= read16(VCNL4000_PROXIMITYDATA)/10.0;
+//Serial.println(reading);
+float motionDetect = abs(reading-oldReading);
+Serial.println(motionDetect*10.0+10);
+oldReading=reading;
       break;
-      /**/
-      float reading = read16(VCNL4000_PROXIMITYDATA); //Get the Reading
-      averageProx = averageProx*(1-floatingavgalpha) + reading*floatingavgalpha;
-      float motionDetect = abs(reading-averageProx);
-     Serial.println(motionDetect*10.0+10); //Keep it high with a +10 so we see our bar in the graph
-break;
-      
     }
     delay(10);
   }
