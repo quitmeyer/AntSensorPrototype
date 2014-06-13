@@ -99,9 +99,9 @@ void serialEvent(Serial myPort) {
     myImage.loadPixels();
 for (int i = 0; i < myImage.pixels.length; i++) {
   myImage.pixels[i] = color(sensors[i]); 
-  print(sensors[i] + ", ");
+ // print(sensors[i] + ", ");
 }
-println();
+//println();
 myImage.updatePixels();
   image (myImage, 0, 0, width, height);
     

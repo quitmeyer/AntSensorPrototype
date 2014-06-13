@@ -32,7 +32,7 @@ void loop()
     for(int i=0; i<324; i++)  // write the raw data to the serial port
     {
       //Serial.write( byte(frameBuf[i]) ); //For fancier command
-      Serial.print(frameBuf[i]);
+      Serial.print(frameBuf[i]); //For some reason (note, i don't have an oscillator) the first pixel is bright, and the rest have weird issues scanning
       Serial.print(","); //Separate values by commas
       /*
       Serial.print(frameBuf[i], BYTE);
@@ -50,5 +50,6 @@ void loop()
     }
     Serial.flush(); //more fancier command stuff to pC
     */
+   Serial.println();
    // Serial.println("---frameend----");
 }
