@@ -1,37 +1,43 @@
-// Simple Capacitive Sense Example
+// Simple Capacitive Sense Example with ATTINY 85
+// Quitmeyer 2014 Public Domain
+//Uses one input wire (Pin 3, second down from Top Left Corner)
+//hooked up through a 1MOhm resistor to the Vin line
+//Usually cap sensing requires two controllable lines, 
+//this is kinda weird cheating that is super simple
 
-//Uses one input wire hooked up through a 330kOhm resistor to the Vin line
-//Usually cap sensing requires two lines
-
-//Adapted from: UdK DRL EIT  Jussi Mikonen
+//Use a 100pf capacitor between the Sensor Pin (pin 3) and the Ground, 
+//for greater sensitivity
+//Adapted from: UdK DRL EIT  Jussi Mikonen, via Kobakant
 //
 
 //Output Pin
-int ledPin = 0;      // select the pin for the LED
-int fadePin = 1;
+int binaryTouchPin = 0;      // This pin displays Touched or NOT
+int analogTouchPin = 1;     // This pin displays higher granularity like how much was it touched
 //Pin hooked up to capactive load
-int sensPin = PB3;
+int sensPin = PB3; //This pin works as the sensor
 
 int calibration = 0;
 int previous;
 
-float reading;
+float reading; // This is the reading for how long it took to charge
+//(which shows how much capacitance there is)
 
-float fadeValue=255/2;
+
+float binaryValue=255/2;
 float fadeIncrease=0.25;
 
 
-int absthresh = 2;
+int absthresh = 2; //Threshold to determine if touched or not
 
 
 void setup() {
-  // declare the ledPin as an OUTPUT:
+  // declare the binaryTouchPin as an OUTPUT:
   
   //Delay 
   
   delay(2000);
-  pinMode(ledPin, OUTPUT); 
-  pinMode(fadePin, OUTPUT);
+  pinMode(binaryTouchPin, OUTPUT); 
+  pinMode(analogTouchPin, OUTPUT);
   // CAPACITIVE CALLIBRATION
   // calibrate pin:
   delay(100);
@@ -40,7 +46,7 @@ void setup() {
     delay(20);
   }
   calibration = (calibration + 4) / 8;
-  if(fadeValue > 255) fadeValue=255;
+  if(binaryValue > 255) binaryValue=255;
 
 
 }
@@ -48,20 +54,19 @@ void setup() {
 
 
 void loop() {
+  
+  //Do the capacitive Sensing algorithm... Determine how much capacitance
   capSensing();
-//  fadeValue-=fadeIncrease/2;
-    if(fadeValue < 0) fadeValue=0;
+  
+//Binary Reading
+if(abs(reading)>0) binaryValue=255;
+else binaryValue=0;
 
-//  if(reading>0) fadeValue+=fadeIncrease;
-
-//Binary Switch
-//if(abs(reading)>0) fadeValue=255;
-if(abs(reading)>0) fadeValue=255;
-
-else fadeValue=0;
-
-  analogWrite(ledPin, fadeValue);
-analogWrite(fadePin, reading);
+//Display Touched or Not
+  analogWrite(binaryTouchPin, binaryValue);
+  
+//Display How much it is squeezed or how close it is touched
+analogWrite(analogTouchPin, reading);
   
 }
 
@@ -69,11 +74,12 @@ analogWrite(fadePin, reading);
 
 void capSensing(){
   // sensing on pin 3:
+  //Read how long it takes to charge up the pin
+  //More Time == More Capacitance
   int ctime = chargeTime(sensPin);
   reading = ctime - calibration;
   
 
-  
   previous = ctime;
   delayMicroseconds(500);
 
