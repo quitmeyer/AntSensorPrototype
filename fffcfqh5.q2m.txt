@@ -1,0 +1,21 @@
+﻿
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Changes to be committed:
+#   (use "git reset HEAD <file>..." to unstage)
+#
+#	modified:   Capacitive - EMF Sensing/CapsenseSimpleTiny_WORKS/CapsenseSimpleTiny_WORKS.ino
+#	modified:   OpticalMouse Sensing/ReadMouseImage/ReadMouseImage.pde
+#	modified:   OpticalMouse Sensing/adns_exampleCode/adnsCamera/adnsCamera.ino
+#
+# Untracked files:
+#   (use "git add <file>..." to include in what will be committed)
+#
+#	Capacitive - EMF Sensing/arduino-libraries-CapacitiveSensor-3e33f75/arduino-libraries-CapacitiveSensor-3e33f75/libraries/CapacitiveSensor/examples/
+#	Capacitive - EMF Sensing/arduino-libraries-CapacitiveSensor-3e33f75/arduino-libraries-CapacitiveSensor-3e33f75/libraries/CapacitiveSensorDue/examples/
+#	OpticalMouse Sensing/ADNS_TIMCEXX/
+#	OpticalMouse Sensing/SpeckleSense/
+#	OpticalMouse Sensing/adns_exampleCode/adnsCamera_AndyPrintln/
+#	OpticalMouse Sensing/readmouse/
+
