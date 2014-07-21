@@ -1,6 +1,7 @@
 // Example of grabbing image frames from the ADNS-26xx optical mouse sensor and outputting them to the serial port.
 // Of course, you need a suitable script/sketch/program running on the PC to catch them (wait for 324 bytes, then send one character to acknowledge)
-
+//Hacked by Andrew Quitmeyer to print out values
+//and we can send these values to a processing sketch to see them!
 #include "Adns.h"
 
 byte frameBuf[324];  // how much memory does this thing have, anyway?

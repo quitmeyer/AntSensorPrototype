@@ -1,6 +1,8 @@
 /**
  * Load an image in from Optical Mouse
  * Display as grayscale image
+ *Adapted from tim.cexx.org/?p=613
+ *2014 Public Domain  A. Quitmeyer
  */
 
 

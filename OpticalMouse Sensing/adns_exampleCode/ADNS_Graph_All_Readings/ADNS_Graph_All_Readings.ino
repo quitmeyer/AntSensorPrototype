@@ -5,7 +5,9 @@ other example will do that)
 This is for an Arduino Uno type microcontroller right now 
 (I wanna do an ATtiny85 Later)
 
-Ƹ|Ʒ 2014 Hacked together by A. Quitmeyer
+ 2014 Hacked together by A. Quitmeyer Public Domain
+ 
+ you can send all these to a processing sketch
 */
 #include "Adns.h"
 
@@ -59,7 +61,20 @@ void loop()
     //Get positions
     pos_x = pos_x + dx;
     pos_y = pos_y + dy;  
-  //Initial view in just Serial Monitor
+  //Changes in x and y
+      Serial.print("DX");
+            Serial.print(":");
+    Serial.print(dx, DEC);
+    
+    Serial.print(separator);
+    
+    Serial.print("DY");
+            Serial.print(":");
+    Serial.print(dy, DEC);
+    Serial.print(separator);
+  
+  //Positions
+  /*
     Serial.print("X");
             Serial.print(":");
     Serial.print(pos_x, DEC);
@@ -70,6 +85,8 @@ void loop()
             Serial.print(":");
     Serial.print(pos_y, DEC);
     Serial.print(separator);
+    */
+    
     //Get Pixel Sum
     pixsum = cam.adns_get_pixel_sum();
     Serial.print("PIXSUM");
