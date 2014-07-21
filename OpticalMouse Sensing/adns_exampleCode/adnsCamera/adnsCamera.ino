@@ -1,15 +1,20 @@
-// Example of grabbing image frames from the ADNS-26xx optical mouse sensor and outputting them to the serial port.
-// Of course, you need a suitable script/sketch/program running on the PC to catch them (wait for 324 bytes, then send one character to acknowledge)
 
 #include "Adns.h"
 
+// sclk, sdio, pwr, gnd
+
 byte frameBuf[324];  // how much memory does this thing have, anyway?
 
-Mousecam cam( 10, 11, 12, 8); // sclk, sdio, pwr, gnd
+Mousecam cam( 10, 11, 12, 8);
 
 void setup()
 {
   Serial.begin(115200);
+  //Serial.println("Testing 123...");
+  
+  //pinMode(11, OUTPUT);
+  //pinMode(10, OUTPUT);
+  //pinMode(12, OUTPUT);
 
   pinMode(6, OUTPUT);  // optional: run an LED
   digitalWrite(6, LOW);
@@ -25,31 +30,45 @@ void setup()
 
 void loop()
 {
+    //Serial.print(cam.adns_get_pixel_sum(), HEX);
+    //Serial.print("\t");
+    //Serial.print(cam.adns_get_delta_x(), HEX);
+    //Serial.print("\t");    
+    //Serial.print(cam.adns_get_delta_y(), HEX);
+    //Serial.print("\n");
 
-    cam.adns_get_frame(frameBuf); // get entire image frame (18*18 = 324 bytes) to frameBuf[]
-
-//Serial.println("!-framestart-!");
-    for(int i=0; i<324; i++)  // write the raw data to the serial port
+    cam.adns_get_frame(frameBuf);
+    for(int i=0; i<324; i++)
     {
-      //Serial.write( byte(frameBuf[i]) ); //For fancier command
-      Serial.print(frameBuf[i]); //For some reason (note, i don't have an oscillator) the first pixel is bright, and the rest have weird issues scanning
-      Serial.print(","); //Separate values by commas
-      /*
       Serial.print(frameBuf[i], BYTE);
-      A quick search led me a link with the solution (https://decibel.ni.com/content/thread/11196?tstart=0), that is to replace
--  Serial.print(0, BYTE) by Serial.write( byte(0) )
--  Serial.print(1, BYTE) by Serial.write( byte(1) )
-...
-- and all Serial.print(xxxx, BYTE) by Serial.write(xxxx).
-      */
-      
     }
     
-   /*     while (Serial.available() == 0)  // wait for PC to acknowledge it's ready for the next frame by sending a character
+        while (Serial.available() == 0)
     {
     }
-    Serial.flush(); //more fancier command stuff to pC
-    */
-   Serial.println();
-   // Serial.println("---frameend----");
+    Serial.flush();
+  //cam.my_shiftOut(11, 10, MSBFIRST, 0x50);
+
+}
+
+
+void mymy_shiftOut(int dataPin, int clkPin, byte Ignored, byte data)
+{
+  // could not find which SPI mode shiftOut assumes (clock idles high/low, etc.) or if it tries to guess based on pin state going in.
+  // faster to just write my own than dig for this...
+  
+byte mydata;  
+  
+  for (int i=0; i<8; i++)
+  {
+    //Serial.print(data, HEX);
+    mydata = ((data & 0x80) > 0);
+    Serial.print(mydata, HEX);
+    digitalWrite(dataPin, ((data & 0x80) > 0));
+    data = data << 1;
+    digitalWrite(clkPin, LOW);
+    delayMicroseconds(ADNS_DELAY);
+    digitalWrite(clkPin, HIGH);
+    delayMicroseconds(ADNS_DELAY);
+  }
 }

@@ -27,7 +27,7 @@ float binaryValue=255/2;
 float fadeIncrease=0.25;
 
 
-int absthresh = 2; //Threshold to determine if touched or not
+int absthresh = 1; //Threshold to determine if touched or not
 
 
 void setup() {
