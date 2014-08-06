@@ -99,7 +99,7 @@ void keyPressed() {
 void serialEvent (Serial myPort) {
 
   // get the ASCII string:
-  String inString = myPort.readStringUntil('\n');
+  String inString = myPort.readStringUntil(10);
 
  
   if (inString != null) {

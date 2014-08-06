@@ -35,7 +35,7 @@ char separator[] = " | ";
 
 void setup()
 {
-  Serial.begin(115200);
+  Serial.begin(9600);
 
   pinMode(6, OUTPUT);  // optional: run an LED
   digitalWrite(6, LOW); //LED anode
