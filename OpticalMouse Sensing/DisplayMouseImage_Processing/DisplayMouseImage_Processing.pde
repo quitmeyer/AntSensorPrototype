@@ -15,7 +15,7 @@ PImage myImage;
 
 int linefeed = 10;   // Linefeed in ASCII
 int numSensors = 18*18;  // we will be expecting for reading data from four sensors
-int sensors[];       // array to read the 4 values
+int sensors[]= new int[numSensors];       // array to read the 4 values
 int pSensors[];      // array to store the previuos reading, usefur for comparing
 // actual reading with the last one
 
@@ -81,7 +81,29 @@ void loop() {
 */
 
 void serialEvent(Serial myPort) {
+  
 
+
+  int lf = 10;
+    // Expand array size to the number of bytes you expect:
+    byte[] inBuffer = new byte[325]; //324 plus linefeed
+  if(0!= myPort.readBytesUntil(lf, inBuffer)){
+       myImage.loadPixels();
+    if (inBuffer != null) {
+      
+      sensors=int(inBuffer);
+      for(int i=0; i<sensors.length-2;i++){
+   //    print(sensors[i] + ", "); //Deug
+       
+         myImage.pixels[i] = color(map(sensors[i],50,150,0,255));  //It's supposed to give values between 0 and 63, but instead gives this weird range 64-123 or something
+       
+      }
+    }
+    myImage.updatePixels();
+  image (myImage, 0, 0, width, height);
+//     println("frame"); //Debug
+  }
+  /*Old Way with String Lines
   // read the serial buffer:
   String myString = myPort.readStringUntil(linefeed);
 
@@ -101,19 +123,17 @@ void serialEvent(Serial myPort) {
     myImage.loadPixels();
 for (int i = 1; i < myImage.pixels.length; i++) {
   myImage.pixels[i] = color(sensors[i]); 
- // print(sensors[i] + ", ");
+  print(sensors[i] + ", ");
 }
 //println();
 myImage.updatePixels();
   image (myImage, 0, 0, width, height);
+  
+
     
-    /*
-    for (int sensorNum = 0; sensorNum < sensors.length; sensorNum++) {
-      print("Sensor " + sensorNum + ": " + sensors[sensorNum] + "\t");
-    }
-    
+
     // add a linefeed after all the sensor values are printed:
     println();
-*/
-  }
+    
+  }*/
 }
